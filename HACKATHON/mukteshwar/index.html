@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mukteshwar Temple — Dharohar</title>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --navy:       #1a2744;
+      --navy-deep:  #0f1a2e;
+      --gold:       #c9a84c;
+      --gold-hover: #dfc06a;
+      --cream:      #f5f1ea;
+      --white:      #ffffff;
+      --text:       #1a2744;
+      --muted:      #6b7a99;
+      --border:     #e2ddd4;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 62px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+    .logo { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
+    .logo-orb {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--navy); border: 2px solid var(--gold);
+      display: grid; place-items: center;
+    }
+    .logo-orb svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 2; }
+    .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--navy); letter-spacing: .5px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-links .cta {
+      background: var(--gold); color: var(--navy) !important; font-weight: 600;
+      padding: .48rem 1.3rem; border-radius: 50px; transition: background .2s, transform .2s;
+    }
+    .nav-links .cta:hover { background: var(--gold-hover); transform: translateY(-1px); }
+
+    /* ── SPLIT ── */
+    .split { flex: 1; display: flex; overflow: hidden; }
+
+    /* ── LEFT ── */
+    .left {
+      width: 42%; min-width: 380px;
+      background: var(--white); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .left-body {
+      flex: 1; overflow-y: auto;
+      padding: 2.5rem 2.8rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .left-body::-webkit-scrollbar { width: 3px; }
+    .left-body::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    .status { display: flex; align-items: center; gap: .5rem; }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18);
+      animation: glow 2s ease-in-out infinite;
+    }
+    @keyframes glow { 50% { box-shadow: 0 0 0 6px rgba(34,197,94,.06); } }
+    .status span { font-size: .7rem; font-weight: 600; color: #16a34a; text-transform: uppercase; letter-spacing: .8px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: var(--navy); color: var(--gold);
+      font-size: .65rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: .28rem .85rem; border-radius: 6px; width: fit-content;
+    }
+    .badge svg { width: 11px; height: 11px; stroke: var(--gold); fill: none; stroke-width: 2.5; }
+
+    .title-block { display: flex; flex-direction: column; gap: .25rem; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 2.75rem; font-weight: 700; color: var(--navy); line-height: 1.1; }
+    .subtitle { font-family: 'Playfair Display', serif; font-style: italic; font-size: .95rem; color: var(--muted); }
+
+    .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: .28rem;
+      background: var(--cream); border: 1px solid var(--border); border-radius: 8px;
+      padding: .28rem .7rem; font-size: .72rem; font-weight: 500; color: var(--navy);
+      transition: all .2s; cursor: default;
+    }
+    .chip:hover { background: var(--navy); color: var(--gold); border-color: var(--navy); }
+    .chip svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .desc { border-left: 3px solid var(--gold); padding-left: 1.1rem; }
+    .desc p { font-size: .9rem; line-height: 1.85; color: var(--muted); }
+    .desc p::first-letter {
+      font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700;
+      float: left; line-height: .85; margin: .04rem .45rem 0 0; color: var(--gold);
+    }
+
+    hr { border: none; border-top: 1px solid var(--border); }
+
+    .location-row { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: var(--muted); }
+    .location-row svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 2; flex-shrink: 0; }
+    .location-row strong { color: var(--navy); }
+
+    /* ── ACTIONS ── */
+    .left-foot {
+      padding: 1.2rem 2.8rem 1.5rem;
+      background: var(--white); border-top: 1px solid var(--border);
+      display: flex; gap: .7rem;
+    }
+    .btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: .45rem;
+      padding: .82rem 1rem; border-radius: 50px; border: none;
+      font-family: 'Inter', sans-serif; font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .25s; position: relative;
+    }
+    .btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .btn-map { background: var(--cream); color: var(--navy); border: 1.5px solid var(--border); }
+    .btn-map:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+    .btn-ar { background: var(--gold); color: var(--navy); box-shadow: 0 4px 18px rgba(201,168,76,.28); }
+    .btn-ar:hover { background: var(--gold-hover); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,.4); }
+    .btn-ar::after {
+      content: ''; position: absolute; inset: -4px; border-radius: 50px;
+      border: 1.5px solid var(--gold); animation: ring 2.5s ease-out infinite; pointer-events: none;
+    }
+    @keyframes ring {
+      0%   { opacity: .6; transform: scale(1); }
+      70%  { opacity: 0;  transform: scale(1.06); }
+      100% { opacity: 0; }
+    }
+
+    /* ── RIGHT ── */
+    .right {
+      flex: 1; background: var(--navy-deep);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 2rem;
+    }
+    .right::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(201,168,76,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,.04) 1px, transparent 1px);
+      background-size: 44px 44px; animation: drift 30s linear infinite;
+    }
+    @keyframes drift { to { transform: translate(44px, 44px); } }
+    .glow-orb { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,.07) 0%, transparent 65%); pointer-events: none; }
+    .cm { position: absolute; width: 32px; height: 32px; opacity: .2; }
+    .cm-tl { top: 1.5rem; left: 1.5rem; border-top: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold); }
+    .cm-tr { top: 1.5rem; right: 1.5rem; border-top: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold); }
+    .cm-bl { bottom: 1.5rem; left: 1.5rem; border-bottom: 1.5px solid var(--gold); border-left: 1.5px solid var(--gold); }
+    .cm-br { bottom: 1.5rem; right: 1.5rem; border-bottom: 1.5px solid var(--gold); border-right: 1.5px solid var(--gold); }
+
+    .eyebrow {
+      position: relative; z-index: 2; font-size: .65rem; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--gold); opacity: .5;
+      margin-bottom: .9rem; display: flex; align-items: center; gap: .6rem;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; width: 24px; height: 1px; background: var(--gold); opacity: .5; }
+
+    .model-frame {
+      position: relative; z-index: 2; width: min(500px, 88%); aspect-ratio: 1;
+      border-radius: 20px; overflow: hidden; background: rgba(255,255,255,.03);
+      border: 1px solid rgba(201,168,76,.12);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.04), 0 30px 80px rgba(0,0,0,.4);
+      animation: emerge .9s cubic-bezier(.4,0,.2,1) both .2s;
+    }
+    @keyframes emerge {
+      from { opacity: 0; transform: scale(.93) translateY(12px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    model-viewer { width: 100%; height: 100%; background: transparent; --poster-color: transparent; }
+    model-viewer::part(default-progress-bar) { background: var(--gold); }
+
+    .hint { position: relative; z-index: 2; margin-top: .9rem; font-size: .7rem; color: rgba(255,255,255,.25); }
+
+    .powered {
+      position: absolute; bottom: 1.2rem; right: 1.4rem; z-index: 3;
+      display: flex; align-items: center; gap: .35rem; padding: .28rem .65rem;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 7px; font-size: .58rem; font-weight: 500;
+      color: rgba(255,255,255,.25); letter-spacing: .4px; text-transform: uppercase;
+    }
+    .powered svg { width: 10px; height: 10px; stroke: var(--gold); fill: none; stroke-width: 2; }
+
+    .p { position: absolute; border-radius: 50%; opacity: 0; pointer-events: none; animation: rise 6s ease-in-out infinite; }
+    @keyframes rise {
+      0%   { opacity: 0; transform: translateY(0) scale(.3); }
+      20%  { opacity: .45; }
+      80%  { opacity: .15; }
+      100% { opacity: 0; transform: translateY(-90px) scale(1); }
+    }
+
+    /* ── AR OVERLAY ── */
+    .ar-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: var(--navy-deep); flex-direction: column;
+      align-items: center; justify-content: center; gap: 1.4rem;
+    }
+    .ar-overlay.on { display: flex; }
+    .ar-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.6); font-size: 1rem; cursor: pointer;
+      display: grid; place-items: center; transition: background .2s;
+    }
+    .ar-close:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .ar-icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,.06); border: 1px solid rgba(201,168,76,.2); display: grid; place-items: center; }
+    .ar-icon svg { width: 34px; height: 34px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .ar-overlay h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; color: var(--white); }
+    .ar-overlay p { font-size: .88rem; color: rgba(255,255,255,.5); text-align: center; max-width: 280px; line-height: 1.65; }
+    .btn-enable {
+      background: var(--gold); color: var(--navy); border: none; border-radius: 50px;
+      padding: .85rem 2.4rem; font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 700;
+      cursor: pointer; box-shadow: 0 6px 24px rgba(201,168,76,.35); transition: all .25s;
+    }
+    .btn-enable:hover { background: var(--gold-hover); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(201,168,76,.45); }
+    #ar-msg { font-size: .75rem; color: rgba(255,255,255,.3); text-align: center; max-width: 260px; }
+    #ar-video { display: none; position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 201; }
+    .ar-exit { display: none; position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 202; background: rgba(255,255,255,.92); color: var(--navy); border: none; border-radius: 50px; padding: .65rem 2rem; font-weight: 700; font-size: .85rem; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+    .ar-exit.on { display: block; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 900px) {
+      body { overflow: auto; height: auto; }
+      .split { flex-direction: column; height: auto; }
+      .left { width: 100%; min-width: unset; }
+      .right { min-height: 55vh; }
+      nav { padding: 0 1.2rem; }
+      h1 { font-size: 2.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-orb">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18M3 12h18M12 3c-2.5 3-4 5.7-4 9s1.5 6 4 9M12 3c2.5 3 4 5.7 4 9s-1.5 6-4 9"/></svg>
+    </div>
+    <span class="logo-name">DHAROHAR</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/monuments/">Monuments</a></li>
+    <li><a href="#">WebAR</a></li>
+    <li><a href="#">Awareness</a></li>
+    <li><a href="#" class="cta">Explore Now</a></li>
+  </ul>
+</nav>
+
+<div class="split">
+
+  <!-- LEFT -->
+  <section class="left">
+    <div class="left-body">
+
+      <div class="status">
+        <div class="dot"></div>
+        <span>ASI Protected · Actively Preserved</span>
+      </div>
+
+      <div class="badge">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        10th Century Masterpiece
+      </div>
+
+      <div class="title-block">
+        <h1>Mukteshwar Temple</h1>
+        <p class="subtitle">"The Gem of Odisha" — Bhubaneswar, India</p>
+      </div>
+
+      <div class="chips">
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          950–975 CE
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Dedicated to Shiva
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Kalinga Architecture
+        </span>
+      </div>
+
+      <div class="desc">
+        <p>Built around 950–975 CE, the Mukteshwar Temple is celebrated as a turning point in Odishan temple architecture. Dedicated to Lord Shiva, this compact yet exquisitely carved shrine introduced the ornate torana — a jewelled arched gateway — which became a hallmark of Kalinga style. Its richly sculpted walls depict scenes from the Panchatantra, celestial figures, and sensuous apsaras, marking a bold new artistic vision that would influence temple-building across the subcontinent for centuries.</p>
+      </div>
+
+      <hr />
+
+      <div class="location-row">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Old Town, <strong>Bhubaneswar, Odisha</strong> &nbsp;·&nbsp; 1,000+ years old &nbsp;·&nbsp; Temple City of India</span>
+      </div>
+
+    </div>
+
+    <div class="left-foot">
+      <button class="btn btn-map" onclick="openMap()">
+        <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+        View on Map
+      </button>
+      <button class="btn btn-ar" onclick="openAR()">
+        <svg viewBox="0 0 24 24"><path d="M3 9V5a2 2 0 0 1 2-2h4"/><path d="M3 15v4a2 2 0 0 0 2 2h4"/><path d="M21 9V5a2 2 0 0 0-2-2h-4"/><path d="M21 15v4a2 2 0 0 1-2 2h-4"/><circle cx="12" cy="12" r="3"/></svg>
+        Launch in AR
+      </button>
+    </div>
+  </section>
+
+  <!-- RIGHT -->
+  <section class="right" id="rp">
+    <div class="glow-orb"></div>
+    <div class="cm cm-tl"></div><div class="cm cm-tr"></div>
+    <div class="cm cm-bl"></div><div class="cm cm-br"></div>
+
+    <div class="eyebrow">3D Heritage Model</div>
+
+    <div class="model-frame" id="mf">
+      <model-viewer
+        id="mv"
+        src="mukteshartample.glb"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        auto-rotate-delay="800"
+        rotation-per-second="15deg"
+        shadow-intensity="1.1"
+        exposure="0.95"
+        camera-orbit="30deg 75deg 105%"
+        environment-image="neutral"
+        alt="Mukteshwar Temple 3D model"
+        loading="eager"
+      >
+        <div slot="poster" style="display:grid;place-items:center;width:100%;height:100%;background:#0f1a2e;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" style="animation:spin 1.2s linear infinite">
+            <circle cx="12" cy="12" r="10" stroke-opacity=".15"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </model-viewer>
+    </div>
+
+    <p class="hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Pinch to pan</p>
+
+    <div class="powered">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg>
+      Powered by WebAR
+    </div>
+  </section>
+
+</div>
+
+<!-- AR OVERLAY -->
+<div class="ar-overlay" id="aro">
+  <button class="ar-close" onclick="closeAR()">✕</button>
+  <div class="ar-icon">
+    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+  </div>
+  <h2>Ready to explore?</h2>
+  <p>We need camera access to provide the augmented reality experience.</p>
+  <button class="btn-enable" id="enBtn" onclick="startAR()">Enable Camera</button>
+  <p id="ar-msg">Works best on Android Chrome · iOS Safari</p>
+</div>
+
+<video id="ar-video" autoplay playsinline muted></video>
+<button class="ar-exit" id="arExit" onclick="stopAR()">✕ &nbsp;Exit AR</button>
+
+<script>
+  // particles
+  const rp = document.getElementById('rp');
+  for(let i=0;i<16;i++){
+    const d=document.createElement('div'); d.className='p';
+    d.style.cssText=`left:${Math.random()*100}%;top:${55+Math.random()*45}%;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;background:${['#c9a84c','#e2c06a','rgba(255,255,255,.35)'][i%3]};animation-delay:${Math.random()*6}s;animation-duration:${4+Math.random()*5}s`;
+    rp.appendChild(d);
+  }
+
+  // parallax tilt
+  const mf=document.getElementById('mf');
+  rp.addEventListener('mousemove',e=>{
+    const r=rp.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    mf.style.transform=`perspective(900px) rotateY(${x*4}deg) rotateX(${-y*4}deg)`;
+  });
+  rp.addEventListener('mouseleave',()=>{ mf.style.transition='transform .5s'; mf.style.transform='perspective(900px) rotateY(0) rotateX(0)'; });
+  rp.addEventListener('mouseenter',()=>{ mf.style.transition='transform .1s'; });
+
+  // ← updated coordinates for Mukteshwar Temple, Bhubaneswar
+  function openMap(){
+    window.open('https://www.google.com/maps/place/Mukteswara+Temple/@20.2425712,85.8404796,3a,90y,14.52h,93.16t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgIDEoZyStwE!2e10!3e11!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAFfmt2bl_grtZ9lOymDm6OMODREhbE5We5YOkUBimI1V2EMaugyLb1Z2clODkIWmKhco_ObRZq4NA3nqjy28iT_wCUYhCkKv6xHstgg5rOTOWvzL5JmFFJol99f7JmLY6_LrwRVVyiaNeQ%3Dw900-h600-k-no-pi-3.156992305130373-ya1.5209219373016438-ro0-fo100!7i8704!8i4352!4m6!3m5!1s0x3a19a7b6ce55018b:0x99a370245cc19c9d!8m2!3d20.2427055!4d85.8404499!16zL20vMGdfZnNs?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D','_blank');
+  }
+
+  let stream=null;
+  function openAR(){ document.getElementById('aro').classList.add('on'); }
+  function closeAR(){ document.getElementById('aro').classList.remove('on'); stopAR(); }
+
+  async function startAR(){
+    const mv=document.getElementById('mv'),msg=document.getElementById('ar-msg'),btn=document.getElementById('enBtn');
+    if(mv.canActivateAR){ closeAR(); mv.activateAR(); return; }
+    if(/android/i.test(navigator.userAgent)){
+      const url=`intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(location.origin+location.pathname.replace('index.html','')+'mukteshwar.glb')}&mode=ar_preferred#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
+      closeAR(); window.location=url; return;
+    }
+    if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
+      const a=document.createElement('a'); a.rel='ar'; a.href='mukteshwar.usdz';
+      a.appendChild(document.createElement('img'));
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      closeAR(); return;
+    }
+    btn.textContent='Starting…';
+    try {
+      stream=await navigator.mediaDevices.getUserMedia({ video:{ facingMode:{ideal:'environment'} } });
+      document.getElementById('ar-video').srcObject=stream;
+      document.getElementById('ar-video').style.display='block';
+      document.getElementById('arExit').classList.add('on');
+      document.getElementById('aro').classList.remove('on');
+    } catch(e){
+      msg.textContent=e.name==='NotAllowedError'?'⚠ Camera permission denied — allow in browser settings.':'⚠ Camera unavailable: '+e.message;
+      btn.textContent='Enable Camera';
+    }
+  }
+
+  function stopAR(){
+    if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; }
+    document.getElementById('ar-video').style.display='none';
+    document.getElementById('arExit').classList.remove('on');
+  }
+</script>
+</body>
+</html>

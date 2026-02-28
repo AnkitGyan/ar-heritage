@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konark Sun Temple — Heritage Preserve AR</title>
+
+  <!-- Google Model Viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Google Fonts — modern heritage typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ===== VARIABLES ===== */
+    :root {
+      /* Heritage palette — warm earth meets cultural teal-blue */
+      --heritage-deep:   #0f2027;
+      --heritage-dark:   #1a3a40;
+      --heritage-teal:   #1f7a8c;
+      --heritage-sky:    #4ecdc4;
+      --heritage-accent: #ff6b35;
+      --amber:           #e09f3e;
+      --amber-light:     #f4d06f;
+      --warm-white:      #fefcf3;
+      --ivory:           #f8f4e8;
+      --stone:           #d5c7a3;
+      --clay:            #a3866a;
+      --charcoal:        #232020;
+      --text-primary:    #1e1e1e;
+      --text-secondary:  #5a5450;
+      --text-muted:      #8a8480;
+      --preserve-green:  #2d6a4f;
+      --preserve-light:  #52b788;
+      --radius:          14px;
+      --radius-lg:       20px;
+      --shadow-sm:       0 2px 8px rgba(0,0,0,.08);
+      --shadow-md:       0 8px 30px rgba(0,0,0,.12);
+      --shadow-lg:       0 20px 60px rgba(0,0,0,.18);
+      --transition:      .35s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--ivory);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* subtle topographic-map pattern */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      z-index: 9999; pointer-events: none;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* ===== TOP NAV BAR ===== */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .65rem 2rem;
+      background: rgba(15,32,39,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(78,205,196,.15);
+      box-shadow: 0 2px 24px rgba(0,0,0,.3);
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--heritage-teal), var(--heritage-sky));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 10px rgba(78,205,196,.3);
+    }
+    .logo-icon i { color: #fff; width: 18px; height: 18px; }
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .logo-text span { color: var(--heritage-sky); }
+
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-size: .8rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--heritage-sky);
+      border-radius: 1px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--heritage-accent), #e05520);
+      color: #fff !important;
+      padding: .4rem 1rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: .75rem !important;
+      letter-spacing: 1px;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,107,53,.35); }
+
+    /* ===== MISSION BANNER (under nav) ===== */
+    .mission-banner {
+      position: fixed;
+      top: 54px; left: 0; right: 0;
+      z-index: 99;
+      background: linear-gradient(90deg, var(--preserve-green), var(--heritage-teal));
+      padding: .4rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      overflow: hidden;
+    }
+    .mission-banner p {
+      font-size: .72rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.9);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(80vw); }
+      100% { transform: translateX(-120vw); }
+    }
+
+    /* ===== MAIN LAYOUT ===== */
+    .main-container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 82px; /* nav + banner */
+    }
+
+    /* ===== LEFT PANEL ===== */
+    .left-panel {
+      width: 44%;
+      min-width: 400px;
+      display: flex;
+      flex-direction: column;
+      background: var(--warm-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative side stripe */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; right: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--heritage-sky), var(--heritage-teal), var(--amber), var(--heritage-accent));
+    }
+
+    .left-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 2.2rem 1rem;
+      overflow-y: auto;
+    }
+
+    /* ── Preservation status card ── */
+    .preservation-card {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background: linear-gradient(135deg, rgba(45,106,79,.06), rgba(82,183,136,.06));
+      border: 1px solid rgba(45,106,79,.15);
+      border-radius: var(--radius);
+      padding: .65rem 1rem;
+      margin-bottom: 1.2rem;
+      animation: fadeSlideDown .7s ease both;
+    }
+    .preservation-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--preserve-light);
+      box-shadow: 0 0 0 3px rgba(82,183,136,.2);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(82,183,136,.2); }
+      50%      { box-shadow: 0 0 0 7px rgba(82,183,136,.08); }
+    }
+    .preservation-card .pres-text {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--preserve-green);
+      letter-spacing: .3px;
+    }
+    .preservation-card .pres-label {
+      font-size: .65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── Heritage Badge ── */
+    .temple-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      background: linear-gradient(135deg, var(--heritage-deep), var(--heritage-dark));
+      color: var(--heritage-sky);
+      padding: .3rem .9rem;
+      border-radius: 8px;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: .8rem;
+      animation: fadeSlideDown .8s ease both;
+    }
+    .temple-badge i { width: 12px; height: 12px; }
+
+    .temple-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.6rem;
+      font-weight: 400;
+      color: var(--heritage-deep);
+      line-height: 1.1;
+      margin-bottom: .3rem;
+      animation: fadeSlideDown .9s ease both;
+    }
+
+    .temple-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      animation: fadeSlideDown 1s ease both;
+    }
+
+    /* ── Heritage trail breadcrumb ── */
+    .heritage-trail {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      margin-bottom: 1.2rem;
+      animation: fadeSlideDown 1.05s ease both;
+    }
+    .trail-step {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      font-size: .7rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .trail-step.active { color: var(--heritage-teal); font-weight: 600; }
+    .trail-sep { color: var(--stone); font-size: .6rem; }
+    .trail-step i { width: 12px; height: 12px; }
+
+    /* ── Info Chips ── */
+    .info-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-bottom: 1.3rem;
+      animation: fadeSlideDown 1.1s ease both;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .3rem .75rem;
+      border: 1px solid rgba(31,122,140,.2);
+      border-radius: 8px;
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .3px;
+      color: var(--heritage-dark);
+      background: rgba(31,122,140,.04);
+      transition: all var(--transition);
+    }
+    .chip:hover {
+      background: var(--heritage-teal);
+      color: #fff;
+      border-color: var(--heritage-teal);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(31,122,140,.2);
+    }
+    .chip i { width: 13px; height: 13px; }
+
+    /* ── Description ── */
+    .description-block {
+      position: relative;
+      padding: 1.2rem 1.3rem;
+      background: rgba(31,122,140,.03);
+      border-left: 3px solid var(--heritage-teal);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 1rem;
+      animation: fadeSlideDown 1.2s ease both;
+    }
+    .description-block p {
+      font-size: .95rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+    }
+    .description-block .drop-cap::first-letter {
+      font-family: 'DM Serif Display', serif;
+      float: left;
+      font-size: 3rem;
+      line-height: .85;
+      margin: .05rem .55rem 0 0;
+      color: var(--heritage-teal);
+    }
+
+    /* ── Why Preserve section ── */
+    .preserve-section {
+      background: linear-gradient(135deg, var(--heritage-deep), var(--heritage-dark));
+      border-radius: var(--radius);
+      padding: 1.2rem 1.3rem;
+      margin-bottom: 1rem;
+      animation: fadeSlideDown 1.25s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+    .preserve-section::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: rgba(78,205,196,.08);
+    }
+    .preserve-heading {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: var(--heritage-sky);
+      margin-bottom: .6rem;
+    }
+    .preserve-heading i { width: 18px; height: 18px; }
+    .preserve-text {
+      font-size: .85rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,.7);
+    }
+    .preserve-stats {
+      display: flex;
+      gap: .8rem;
+      margin-top: .8rem;
+    }
+    .stat-pill {
+      flex: 1;
+      text-align: center;
+      padding: .5rem;
+      background: rgba(255,255,255,.06);
+      border-radius: 10px;
+      border: 1px solid rgba(78,205,196,.12);
+    }
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--amber-light);
+    }
+    .stat-label {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.45);
+      margin-top: .15rem;
+    }
+
+    /* ── Fun Facts ── */
+    .facts-section {
+      margin-bottom: 1rem;
+      animation: fadeSlideDown 1.3s ease both;
+    }
+    .facts-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem;
+      color: var(--heritage-deep);
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+    }
+    .facts-title i { color: var(--amber); width: 18px; height: 18px; }
+    .fact-item {
+      padding: .6rem .9rem;
+      background: rgba(224,159,62,.04);
+      border-radius: 10px;
+      margin-bottom: .35rem;
+      font-size: .85rem;
+      line-height: 1.6;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      position: relative;
+      padding-left: 1.6rem;
+    }
+    .fact-item::before {
+      content: '';
+      position: absolute;
+      left: .65rem; top: 50%;
+      transform: translateY(-50%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      opacity: .5;
+      transition: all var(--transition);
+    }
+    .fact-item:hover {
+      border-color: var(--amber);
+      background: rgba(224,159,62,.08);
+      transform: translateX(4px);
+    }
+    .fact-item:hover::before { opacity: 1; transform: translateY(-50%) scale(1.4); }
+    .fact-item strong { color: var(--heritage-teal); }
+
+    /* ===== ACTION BUTTONS ===== */
+    .action-bar {
+      padding: 1rem 2.2rem 1.5rem;
+      display: flex;
+      gap: .8rem;
+      background: linear-gradient(0deg, var(--warm-white) 60%, transparent);
+      animation: fadeSlideUp 1s ease both;
+      animation-delay: .6s;
+    }
+
+    .btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      padding: .85rem 1rem;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .btn i { width: 18px; height: 18px; transition: transform var(--transition); }
+    .btn:hover i { transform: scale(1.1); }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.12), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .btn:hover::before { opacity: 1; }
+
+    .btn-map {
+      background: var(--heritage-deep);
+      color: #fff;
+      border: 1.5px solid rgba(78,205,196,.25);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-map:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--heritage-sky);
+    }
+
+    .btn-ar {
+      background: linear-gradient(135deg, var(--heritage-accent), #e05520);
+      color: #fff;
+      border: 1.5px solid transparent;
+      box-shadow: 0 4px 18px rgba(255,107,53,.2);
+    }
+    .btn-ar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255,107,53,.35);
+    }
+
+    .btn-ar::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: calc(var(--radius) + 3px);
+      border: 2px solid var(--heritage-accent);
+      animation: pulseRing 2.5s ease-out infinite;
+      pointer-events: none;
+    }
+
+    /* ===== RIGHT PANEL ===== */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(78,205,196,.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 70%, rgba(255,107,53,.04) 0%, transparent 50%),
+        linear-gradient(160deg, var(--heritage-deep) 0%, #0a1a1f 100%);
+      position: relative;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    /* animated grid background */
+    .right-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(78,205,196,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(78,205,196,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridShift 20s linear infinite;
+    }
+    @keyframes gridShift {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(40px, 40px); }
+    }
+
+    /* floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatParticle 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .particle.teal { background: var(--heritage-sky); }
+    .particle.amber { background: var(--amber); }
+    .particle.accent { background: var(--heritage-accent); }
+
+    .viewer-label {
+      font-family: 'Inter', sans-serif;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--heritage-sky);
+      opacity: .5;
+      margin-bottom: .8rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      animation: fadeSlideDown .7s ease both;
+    }
+    .viewer-label::before,
+    .viewer-label::after {
+      content: '';
+      width: 30px; height: 1px;
+      background: var(--heritage-sky);
+      opacity: .3;
+    }
+
+    .model-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(78,205,196,.15),
+        0 0 0 4px rgba(78,205,196,.05),
+        var(--shadow-lg),
+        0 0 80px rgba(78,205,196,.06);
+      animation: fadeScale 1s ease both;
+      animation-delay: .3s;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      --poster-color: transparent;
+    }
+    model-viewer::part(default-progress-bar) {
+      background: var(--heritage-sky);
+    }
+
+    .viewer-hint {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: 1rem;
+      font-size: .75rem;
+      font-weight: 400;
+      color: rgba(255,255,255,.35);
+      animation: fadeSlideUp 1s ease both;
+      animation-delay: 1s;
+    }
+    .viewer-hint i { width: 14px; height: 14px; }
+
+    /* ── Powered-by badge ── */
+    .powered-badge {
+      position: absolute;
+      bottom: 1.2rem;
+      right: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .35rem .8rem;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px;
+      font-size: .6rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .powered-badge i { width: 12px; height: 12px; color: var(--heritage-sky); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeScale {
+      from { opacity: 0; transform: scale(.93); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulseRing {
+      0%   { opacity: .6; transform: scale(1); }
+      70%  { opacity: 0;  transform: scale(1.06); }
+      100% { opacity: 0;  transform: scale(1.06); }
+    }
+    @keyframes floatParticle {
+      0%   { opacity: 0; transform: translateY(0) scale(.4); }
+      20%  { opacity: .6; }
+      80%  { opacity: .3; }
+      100% { opacity: 0; transform: translateY(-110px) scale(1); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== SCROLLBAR ===== */
+    .left-content::-webkit-scrollbar { width: 5px; }
+    .left-content::-webkit-scrollbar-track { background: transparent; }
+    .left-content::-webkit-scrollbar-thumb {
+      background: var(--heritage-teal);
+      border-radius: 3px;
+      opacity: .5;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      .main-container { flex-direction: column; }
+      .left-panel { width: 100%; min-width: unset; }
+      .left-panel::before { display: none; }
+      .right-panel { min-height: 55vh; }
+      .temple-title { font-size: 2rem; }
+      .model-wrapper { max-width: 88%; }
+      .top-bar { padding: .6rem 1rem; }
+      .nav-links { gap: .8rem; }
+      .mission-banner p { font-size: .65rem; }
+    }
+    @media (max-width: 520px) {
+      .left-content { padding: 1.3rem 1rem .8rem; }
+      .action-bar { padding: .8rem 1rem 1.2rem; flex-direction: column; }
+      .temple-title { font-size: 1.7rem; }
+      .info-chips { gap: .3rem; }
+      .chip { font-size: .65rem; padding: .22rem .55rem; }
+      .preserve-stats { flex-direction: column; gap: .5rem; }
+      .heritage-trail { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== TOP NAVIGATION ===== -->
+  <nav class="top-bar">
+    <div class="logo-group">
+      <div class="logo-icon"><i data-lucide="landmark"></i></div>
+      <div class="logo-text">Heritage<span>Lens</span></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">Explore</a></li>
+      <li><a href="#">Heritage Sites</a></li>
+      <li><a href="#">Culture</a></li>
+      <li><a href="#" class="nav-cta">Preserve Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== MISSION BANNER ===== -->
+  <div class="mission-banner">
+    <p>
+      Preserving the past through technology — Experience heritage through Augmented Reality —
+      Tourism meets culture — Digitally safeguarding monuments for future generations —
+      Explore. Preserve. Experience. — Heritage is not just history, it's our identity &nbsp;&nbsp;&nbsp;
+    </p>
+  </div>
+
+  <!-- ===== MAIN SPLIT LAYOUT ===== -->
+  <div class="main-container">
+
+    <!-- ── LEFT PANEL ── -->
+    <section class="left-panel">
+      <div class="left-content">
+
+        <!-- Preservation Status -->
+        <div class="preservation-card">
+          <div class="preservation-dot"></div>
+          <div>
+            <div class="pres-text">Actively Preserved — ASI Protected Monument</div>
+            <div class="pres-label">Conservation Status</div>
+          </div>
+        </div>
+
+        <span class="temple-badge">
+          <i data-lucide="shield-check"></i> UNESCO World Heritage Site
+        </span>
+
+        <h1 class="temple-title">Konark Sun Temple</h1>
+        <p class="temple-subtitle">"The Black Pagoda" — Odisha, India</p>
+
+        <!-- Heritage Trail Breadcrumb -->
+        <div class="heritage-trail">
+          <span class="trail-step"><i data-lucide="globe"></i> India</span>
+          <span class="trail-sep">/</span>
+          <span class="trail-step">Odisha</span>
+          <span class="trail-sep">/</span>
+          <span class="trail-step">Puri District</span>
+          <span class="trail-sep">/</span>
+          <span class="trail-step active"><i data-lucide="map-pin"></i> Konark</span>
+        </div>
+
+        <!-- Info Chips -->
+        <div class="info-chips">
+          <span class="chip"><i data-lucide="calendar"></i> 13th Century CE</span>
+          <span class="chip"><i data-lucide="crown"></i> King Narasimhadeva I</span>
+          <span class="chip"><i data-lucide="sun"></i> Dedicated to Surya</span>
+          <span class="chip"><i data-lucide="award"></i> UNESCO 1984</span>
+          <span class="chip"><i data-lucide="camera"></i> Tourism Hotspot</span>
+        </div>
+
+        <!-- Description -->
+        <div class="description-block">
+          <p class="drop-cap">
+            Built in the 13th century by King Narasimhadeva I of the Eastern Ganga dynasty,
+            the Konark Sun Temple is an architectural marvel shaped as a colossal chariot
+            with intricately carved stone wheels, pillars, and walls. Dedicated to Surya,
+            the Hindu Sun God, the temple was designed so that the first rays of sunrise
+            would illuminate its sanctum.
+          </p>
+        </div>
+
+        <div class="description-block" style="border-left-color: var(--amber);">
+          <p>
+            The temple's 24 elaborately carved wheels serve as sundials, capable of
+            calculating time to the minute. Seven mighty horses appear to pull the
+            chariot-temple toward the dawn. Though partially in ruins, its grandeur
+            continues to awe historians, architects, and travelers from across the world.
+          </p>
+        </div>
+
+        <!-- Why Preserve Card -->
+        <div class="preserve-section">
+          <div class="preserve-heading"><i data-lucide="heart-handshake"></i> Why Preservation Matters</div>
+          <p class="preserve-text">
+            Monuments like Konark face erosion, pollution, and climate threats daily.
+            Digital preservation through 3D scanning and AR ensures that even if the
+            physical structure degrades, its beauty and knowledge survive forever —
+            accessible to anyone, anywhere.
+          </p>
+          <div class="preserve-stats">
+            <div class="stat-pill">
+              <div class="stat-number">800+</div>
+              <div class="stat-label">Years Old</div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-number">2M+</div>
+              <div class="stat-label">Annual Visitors</div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-number">1984</div>
+              <div class="stat-label">UNESCO Listed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fun Facts -->
+        <div class="facts-section">
+          <div class="facts-title"><i data-lucide="sparkles"></i> Cultural Highlights</div>
+          <div class="fact-item"><strong>Magnetic Pull:</strong> Legend says a massive magnet at the temple's top caused ships to be drawn toward shore.</div>
+          <div class="fact-item"><strong>Shadow Dial:</strong> The stone wheels function as precise sundials — telling time by the shadow cast on the spokes.</div>
+          <div class="fact-item"><strong>Iron Beams:</strong> Engineers used iron beams in the 13th century — an extraordinary feat of medieval metallurgy.</div>
+          <div class="fact-item"><strong>Black Pagoda:</strong> European sailors called it the "Black Pagoda" because it appeared dark from the sea and was said to lure ships to destruction.</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-bar">
+        <button class="btn btn-map" onclick="openMap()">
+          <i data-lucide="map"></i> View on Map
+        </button>
+        <button class="btn btn-ar" id="arBtn" onclick="launchAR()">
+          <i data-lucide="view"></i> Launch in AR
+        </button>
+      </div>
+    </section>
+
+    <!-- ── RIGHT PANEL (3D VIEWER) ── -->
+    <section class="right-panel" id="viewerPanel">
+
+      <div class="viewer-label">Interactive 3D Heritage Model</div>
+
+      <div class="model-wrapper">
+        <model-viewer
+          id="model"
+          src="konak.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          auto-rotate
+          auto-rotate-delay="1000"
+          rotation-per-second="18deg"
+          interaction-prompt="auto"
+          shadow-intensity="1.2"
+          exposure="0.9"
+          camera-orbit="30deg 75deg 105%"
+          min-camera-orbit="auto auto 50%"
+          max-camera-orbit="auto auto 200%"
+          environment-image="neutral"
+          skybox-image=""
+          alt="3D model of Konark Sun Temple"
+          loading="eager"
+        >
+          <div slot="poster" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:rgba(15,32,39,.92);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4ecdc4" stroke-width="2" style="animation:spin 1.2s linear infinite"><circle cx="12" cy="12" r="10" stroke-opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+          </div>
+        </model-viewer>
+      </div>
+
+      <div class="viewer-hint">
+        <i data-lucide="mouse-pointer-click"></i>
+        Drag to rotate &nbsp;&bull;&nbsp; Scroll to zoom &nbsp;&bull;&nbsp; Two-finger to pan
+      </div>
+
+      <div class="powered-badge">
+        <i data-lucide="cpu"></i> Powered by WebAR &amp; 3D Scanning
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // ── Floating particles (multi-color) ──
+    (function spawnParticles() {
+      const panel = document.getElementById('viewerPanel');
+      const colors = ['teal', 'amber', 'accent'];
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle', colors[i % colors.length]);
+        p.style.left   = Math.random() * 100 + '%';
+        p.style.top    = 55 + Math.random() * 45 + '%';
+        const size = (2 + Math.random() * 3) + 'px';
+        p.style.width  = size;
+        p.style.height = size;
+        p.style.animationDelay    = (Math.random() * 6) + 's';
+        p.style.animationDuration = (4 + Math.random() * 5) + 's';
+        panel.appendChild(p);
+      }
+    })();
+
+    // ── Map button ──
+    function openMap() {
+      window.open(
+        'https://www.google.com/maps/place/Konark+Sun+Temple/@19.8876,86.0945,17z',
+        '_blank'
+      );
+    }
+
+    // ── AR launch ──
+    function launchAR() {
+      const mv = document.getElementById('model');
+      if (mv.canActivateAR) {
+        mv.activateAR();
+      } else {
+        const src = mv.src;
+        const fallback = `https://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(src)}&mode=ar_preferred`;
+        window.open(fallback, '_blank');
+      }
+    }
+
+    // ── Parallax tilt on right panel ──
+    const wrapper = document.querySelector('.model-wrapper');
+    const rightPanel = document.querySelector('.right-panel');
+    rightPanel.addEventListener('mousemove', (e) => {
+      const rect = rightPanel.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width  - 0.5;
+      const y = (e.clientY - rect.top)  / rect.height - 0.5;
+      wrapper.style.transform = `perspective(800px) rotateY(${x * 3.5}deg) rotateX(${-y * 3.5}deg)`;
+    });
+    rightPanel.addEventListener('mouseleave', () => {
+      wrapper.style.transform = 'perspective(800px) rotateY(0) rotateX(0)';
+      wrapper.style.transition = 'transform .5s ease';
+    });
+    rightPanel.addEventListener('mouseenter', () => {
+      wrapper.style.transition = 'transform .1s ease';
+    });
+
+    // ── Animate stats on scroll into view ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.stat-number').forEach(el => {
+            const final = el.textContent;
+            const num = parseInt(final.replace(/[^0-9]/g, ''));
+            const suffix = final.replace(/[0-9]/g, '');
+            let current = 0;
+            const step = Math.ceil(num / 40);
+            const interval = setInterval(() => {
+              current += step;
+              if (current >= num) { current = num; clearInterval(interval); }
+              el.textContent = current.toLocaleString() + suffix;
+            }, 30);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    const preserveSection = document.querySelector('.preserve-section');
+    if (preserveSection) observer.observe(preserveSection);
+  </script>
+
+</body>
+</html>

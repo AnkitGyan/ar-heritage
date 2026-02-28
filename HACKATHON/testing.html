@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konark Sun Temple — Dharohar</title>
+
+  <!-- Google Model Viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --navy:        #1a2744;
+      --navy-deep:   #0f1a30;
+      --navy-mid:    #243258;
+      --gold:        #c9a84c;
+      --gold-light:  #e2c06a;
+      --gold-pale:   #f0d98a;
+      --cream:       #f7f3ec;
+      --cream-dark:  #ede7d9;
+      --white:       #ffffff;
+      --text-dark:   #1a2744;
+      --text-mid:    #4a5568;
+      --text-light:  #8a9ab5;
+      --border:      rgba(26,39,68,.1);
+      --radius:      16px;
+      --radius-lg:   24px;
+      --shadow-sm:   0 2px 8px rgba(26,39,68,.08);
+      --shadow-md:   0 8px 32px rgba(26,39,68,.12);
+      --shadow-lg:   0 20px 60px rgba(26,39,68,.16);
+      --transition:  .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { font-size:16px; scroll-behavior:smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== NAV ===== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(26,39,68,.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 3rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold);
+    }
+    .nav-logo-icon i { color: var(--gold); width: 20px; height: 20px; }
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--navy); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy) !important;
+      font-weight: 700 !important;
+      padding: .55rem 1.4rem;
+      border-radius: 50px;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition) !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold-light) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201,168,76,.35) !important;
+    }
+
+    /* ===== BREADCRUMB STRIP ===== */
+    .breadcrumb-strip {
+      position: fixed;
+      top: 65px; left: 0; right: 0;
+      z-index: 99;
+      background: var(--navy);
+      padding: .38rem 3rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .bc-step {
+      font-size: .68rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+    .bc-step.active { color: var(--gold); }
+    .bc-sep { color: rgba(255,255,255,.25); font-size: .6rem; }
+
+    /* ===== LAYOUT ===== */
+    .main-wrap {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 97px;
+    }
+
+    /* ===== LEFT PANEL ===== */
+    .left-panel {
+      width: 46%;
+      min-width: 420px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .left-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem 2.5rem 1rem;
+    }
+    .left-scroll::-webkit-scrollbar { width: 4px; }
+    .left-scroll::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; opacity: .5; }
+
+    /* Status badge */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      margin-bottom: 1.2rem;
+      animation: fadeUp .6s ease both;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,.2);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+      50%      { box-shadow: 0 0 0 7px rgba(34,197,94,.07); }
+    }
+    .status-text {
+      font-size: .72rem;
+      font-weight: 600;
+      color: #16a34a;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    /* UNESCO badge */
+    .heritage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--navy);
+      color: var(--gold);
+      padding: .28rem .9rem;
+      border-radius: 6px;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: .9rem;
+      animation: fadeUp .7s ease both;
+    }
+    .heritage-badge i { width: 12px; height: 12px; }
+
+    .temple-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: .3rem;
+      animation: fadeUp .8s ease both;
+    }
+    .temple-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-mid);
+      margin-bottom: 1.4rem;
+      animation: fadeUp .85s ease both;
+    }
+
+    /* Info chips */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: 1.4rem;
+      animation: fadeUp .9s ease both;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .3rem .75rem;
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      border-radius: 8px;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--navy);
+      transition: all var(--transition);
+      cursor: default;
+    }
+    .chip:hover {
+      background: var(--navy);
+      color: var(--gold);
+      border-color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .chip i { width: 12px; height: 12px; }
+
+    /* Description */
+    .desc-block {
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 1rem;
+      animation: fadeUp 1s ease both;
+    }
+    .desc-block p {
+      font-size: .93rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+    }
+    .desc-block p::first-letter {
+      font-family: 'Playfair Display', serif;
+      float: left;
+      font-size: 2.8rem;
+      line-height: .85;
+      margin: .05rem .5rem 0 0;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* Stats section */
+    .stats-card {
+      background: var(--navy);
+      border-radius: var(--radius);
+      padding: 1.3rem;
+      margin-bottom: 1rem;
+      animation: fadeUp 1.05s ease both;
+    }
+    .stats-card-title {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: .55rem;
+    }
+    .stats-card-title i { width: 18px; height: 18px; }
+    .stats-card-text {
+      font-size: .84rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,.65);
+      margin-bottom: .9rem;
+    }
+    .stats-row {
+      display: flex;
+      gap: .7rem;
+    }
+    .stat-pill {
+      flex: 1;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(201,168,76,.2);
+      border-radius: 10px;
+      padding: .6rem .4rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+    .stat-lbl {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: rgba(255,255,255,.4);
+      margin-top: .12rem;
+    }
+
+    /* Icon cards (Historical / Cultural / Preservation) */
+    .icon-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .7rem;
+      margin-bottom: 1rem;
+      animation: fadeUp 1.1s ease both;
+    }
+    .icon-card {
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      border-radius: var(--radius);
+      padding: 1rem .8rem;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .icon-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold);
+    }
+    .icon-card-icon {
+      width: 44px; height: 44px;
+      background: var(--white);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto .6rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .icon-card-icon i { color: var(--gold); width: 20px; height: 20px; }
+    .icon-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .3rem;
+    }
+    .icon-card p {
+      font-size: .7rem;
+      line-height: 1.5;
+      color: var(--text-mid);
+    }
+
+    /* Facts */
+    .facts-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      animation: fadeUp 1.15s ease both;
+    }
+    .facts-title i { color: var(--gold); width: 18px; height: 18px; }
+
+    .fact-item {
+      display: flex;
+      gap: .6rem;
+      padding: .65rem .9rem;
+      background: var(--cream);
+      border-radius: 10px;
+      margin-bottom: .4rem;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      cursor: default;
+      animation: fadeUp 1.2s ease both;
+    }
+    .fact-item:hover {
+      border-color: var(--gold);
+      background: var(--white);
+      transform: translateX(4px);
+      box-shadow: var(--shadow-sm);
+    }
+    .fact-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: .45rem;
+      flex-shrink: 0;
+    }
+    .fact-item p { font-size: .85rem; line-height: 1.6; color: var(--text-mid); }
+    .fact-item strong { color: var(--navy); font-weight: 600; }
+
+    /* ===== ACTION BAR ===== */
+    .action-bar {
+      padding: 1rem 2.5rem 1.5rem;
+      display: flex;
+      gap: .8rem;
+      background: linear-gradient(0deg, var(--white) 70%, transparent);
+    }
+
+    .btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .9rem 1rem;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn i { width: 17px; height: 17px; }
+
+    .btn-map {
+      background: var(--cream);
+      color: var(--navy);
+      border: 2px solid var(--cream-dark);
+    }
+    .btn-map:hover {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-ar {
+      background: var(--gold);
+      color: var(--navy);
+      border: 2px solid transparent;
+      box-shadow: 0 4px 18px rgba(201,168,76,.3);
+    }
+    .btn-ar:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(201,168,76,.45);
+    }
+    .btn-ar::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50px;
+      border: 2px solid var(--gold);
+      animation: arPulse 2.5s ease-out infinite;
+      pointer-events: none;
+    }
+    @keyframes arPulse {
+      0%   { opacity: .7; transform: scale(1); }
+      70%  { opacity: 0; transform: scale(1.05); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
+
+    /* ===== RIGHT PANEL (3D VIEWER) ===== */
+    .right-panel {
+      flex: 1;
+      background: var(--navy-deep);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    /* subtle grid */
+    .right-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridMove 25s linear infinite;
+    }
+    @keyframes gridMove {
+      0%   { transform: translate(0,0); }
+      100% { transform: translate(40px,40px); }
+    }
+
+    /* radial glow */
+    .right-panel::after {
+      content: '';
+      position: absolute;
+      top: 20%; left: 20%;
+      width: 60%; height: 60%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .viewer-eyebrow {
+      position: relative;
+      z-index: 2;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .6;
+      margin-bottom: .9rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .viewer-eyebrow::before,
+    .viewer-eyebrow::after {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--gold);
+      opacity: .4;
+    }
+
+    .model-frame {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,.15),
+        0 0 0 4px rgba(201,168,76,.05),
+        var(--shadow-lg),
+        0 0 80px rgba(201,168,76,.08);
+      animation: scaleIn .9s ease both;
+      animation-delay: .2s;
+      background: rgba(15,26,48,.6);
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      --poster-color: transparent;
+    }
+    model-viewer::part(default-progress-bar) {
+      background: var(--gold);
+    }
+
+    .viewer-hint {
+      position: relative;
+      z-index: 2;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .73rem;
+      color: rgba(255,255,255,.3);
+    }
+    .viewer-hint i { width: 13px; height: 13px; }
+
+    /* corner decorations */
+    .corner {
+      position: absolute;
+      z-index: 2;
+      width: 40px; height: 40px;
+      opacity: .25;
+    }
+    .corner-tl { top: 1.5rem; left: 1.5rem; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); border-radius: 4px 0 0 0; }
+    .corner-tr { top: 1.5rem; right: 1.5rem; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); border-radius: 0 4px 0 0; }
+    .corner-bl { bottom: 1.5rem; left: 1.5rem; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); border-radius: 0 0 0 4px; }
+    .corner-br { bottom: 1.5rem; right: 1.5rem; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); border-radius: 0 0 4px 0; }
+
+    /* powered badge */
+    .powered-badge {
+      position: absolute;
+      bottom: 1.2rem;
+      right: 1.5rem;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .3rem .75rem;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px;
+      font-size: .6rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .powered-badge i { width: 11px; height: 11px; color: var(--gold); }
+
+    /* floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(.3); }
+      20%  { opacity: .5; }
+      80%  { opacity: .2; }
+      100% { opacity: 0; transform: translateY(-100px) scale(1); }
+    }
+
+    /* ===== AR OVERLAY ===== */
+    .ar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--navy-deep);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .ar-overlay.active { display: flex; }
+
+    .ar-cam-circle {
+      width: 90px; height: 90px;
+      background: rgba(255,255,255,.07);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(201,168,76,.2);
+    }
+    .ar-cam-circle i { color: var(--gold); width: 38px; height: 38px; }
+
+    .ar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+    }
+    .ar-subtitle {
+      font-size: .9rem;
+      color: rgba(255,255,255,.55);
+      text-align: center;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    .btn-enable-camera {
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      padding: .9rem 2.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .5px;
+      transition: all var(--transition);
+      box-shadow: 0 6px 24px rgba(201,168,76,.4);
+    }
+    .btn-enable-camera:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(201,168,76,.5);
+    }
+
+    .btn-ar-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: rgba(255,255,255,.6);
+      transition: all var(--transition);
+      font-size: .85rem;
+    }
+    .btn-ar-close:hover { background: rgba(255,255,255,.15); color: #fff; }
+    .btn-ar-close i { width: 16px; height: 16px; }
+
+    /* AR status message */
+    .ar-status {
+      font-size: .8rem;
+      color: rgba(255,255,255,.35);
+      text-align: center;
+      max-width: 280px;
+    }
+
+    /* video feed inside AR */
+    #ar-video {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 501;
+    }
+
+    #ar-canvas-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 502;
+      pointer-events: none;
+    }
+
+    .ar-live-ui {
+      display: none;
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 503;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: .8rem;
+    }
+    .ar-live-ui.active { display: flex; }
+
+    .ar-exit-btn {
+      background: rgba(255,255,255,.9);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      padding: .65rem 2rem;
+      font-weight: 700;
+      font-size: .85rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      transition: all var(--transition);
+    }
+    .ar-exit-btn:hover { background: #fff; }
+
+    .ar-model-viewer-container {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 502;
+    }
+    .ar-model-viewer-container.active { display: block; }
+    .ar-model-viewer-container model-viewer {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      .main-wrap { flex-direction: column; }
+      .left-panel { width: 100%; min-width: unset; }
+      .right-panel { min-height: 55vh; }
+      .navbar { padding: .75rem 1.2rem; }
+      .breadcrumb-strip { padding: .38rem 1.2rem; }
+      .temple-title { font-size: 2.1rem; }
+      .icon-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .left-scroll { padding: 1.2rem 1rem; }
+      .action-bar { padding: .8rem 1rem 1.2rem; flex-direction: column; }
+      .icon-cards { grid-template-columns: 1fr; }
+      .stats-row { flex-direction: column; }
+      .temple-title { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon"><i data-lucide="globe"></i></div>
+    <span class="nav-logo-text">DHAROHAR</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Monuments</a></li>
+    <li><a href="#">WebAR</a></li>
+    <li><a href="#">Awareness</a></li>
+    <li><a href="#" class="nav-cta">Explore Now</a></li>
+  </ul>
+</nav>
+
+<!-- ===== BREADCRUMB ===== -->
+<div class="breadcrumb-strip">
+  <span class="bc-step">India</span>
+  <span class="bc-sep">/</span>
+  <span class="bc-step">Odisha</span>
+  <span class="bc-sep">/</span>
+  <span class="bc-step">Puri District</span>
+  <span class="bc-sep">/</span>
+  <span class="bc-step active">Konark Sun Temple</span>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main-wrap">
+
+  <!-- LEFT -->
+  <section class="left-panel">
+    <div class="left-scroll">
+
+      <div class="status-row">
+        <div class="status-dot"></div>
+        <span class="status-text">ASI Protected — Actively Preserved</span>
+      </div>
+
+      <div class="heritage-badge">
+        <i data-lucide="shield-check"></i> UNESCO World Heritage Site
+      </div>
+
+      <h1 class="temple-title">Konark Sun Temple</h1>
+      <p class="temple-subtitle">"The Black Pagoda" — Odisha, India</p>
+
+      <div class="chips">
+        <span class="chip"><i data-lucide="calendar"></i> 13th Century CE</span>
+        <span class="chip"><i data-lucide="crown"></i> King Narasimhadeva I</span>
+        <span class="chip"><i data-lucide="sun"></i> Dedicated to Surya</span>
+        <span class="chip"><i data-lucide="award"></i> UNESCO 1984</span>
+        <span class="chip"><i data-lucide="camera"></i> 2M+ Annual Visitors</span>
+      </div>
+
+      <div class="desc-block">
+        <p>Built in the 13th century by King Narasimhadeva I of the Eastern Ganga dynasty,
+        the Konark Sun Temple is an architectural marvel shaped as a colossal chariot with
+        intricately carved stone wheels, pillars, and walls. Dedicated to Surya, the Hindu
+        Sun God, the temple was designed so that the first rays of sunrise would illuminate
+        its sanctum.</p>
+      </div>
+
+      <div class="desc-block" style="border-left-color: var(--navy);">
+        <p>The temple's 24 elaborately carved wheels serve as sundials, capable of
+        calculating time to the minute. Seven mighty horses appear to pull the chariot-temple
+        toward the dawn. Though partially in ruins, its grandeur continues to awe historians,
+        architects, and travelers from across the world.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-card">
+        <div class="stats-card-title">
+          <i data-lucide="heart-handshake"></i> Why Preservation Matters
+        </div>
+        <p class="stats-card-text">
+          Monuments like Konark face erosion, pollution, and climate threats daily.
+          Digital preservation through 3D scanning and AR ensures that even if the
+          physical structure degrades, its beauty and knowledge survive forever.
+        </p>
+        <div class="stats-row">
+          <div class="stat-pill">
+            <div class="stat-num" data-target="800" data-suffix="+">800+</div>
+            <div class="stat-lbl">Years Old</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num" data-target="2" data-suffix="M+">2M+</div>
+            <div class="stat-lbl">Annual Visitors</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-num" data-target="1984" data-suffix="">1984</div>
+            <div class="stat-lbl">UNESCO Listed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon cards -->
+      <div class="icon-cards">
+        <div class="icon-card">
+          <div class="icon-card-icon"><i data-lucide="history"></i></div>
+          <h4>Historical Importance</h4>
+          <p>Each stone tells a story of an era gone by, reflecting the genius of our ancestors.</p>
+        </div>
+        <div class="icon-card">
+          <div class="icon-card-icon"><i data-lucide="shield-check"></i></div>
+          <h4>Cultural Value</h4>
+          <p>A living heritage of our diverse culture and shared identity as a nation.</p>
+        </div>
+        <div class="icon-card">
+          <div class="icon-card-icon"><i data-lucide="globe"></i></div>
+          <h4>Preservation</h4>
+          <p>Our collective duty to protect these treasures for future generations.</p>
+        </div>
+      </div>
+
+      <!-- Facts -->
+      <div class="facts-title"><i data-lucide="sparkles"></i> Cultural Highlights</div>
+
+      <div class="fact-item">
+        <div class="fact-dot"></div>
+        <p><strong>Magnetic Pull:</strong> Legend says a massive magnet at the temple's top caused ships to be drawn toward shore.</p>
+      </div>
+      <div class="fact-item">
+        <div class="fact-dot"></div>
+        <p><strong>Shadow Dial:</strong> The stone wheels function as precise sundials — telling time by the shadow cast on the spokes.</p>
+      </div>
+      <div class="fact-item">
+        <div class="fact-dot"></div>
+        <p><strong>Iron Beams:</strong> Engineers used iron beams in the 13th century — an extraordinary feat of medieval metallurgy.</p>
+      </div>
+      <div class="fact-item">
+        <div class="fact-dot"></div>
+        <p><strong>Black Pagoda:</strong> European sailors called it the "Black Pagoda" because it appeared dark from the sea.</p>
+      </div>
+
+    </div><!-- /left-scroll -->
+
+    <div class="action-bar">
+      <button class="btn btn-map" onclick="openMap()">
+        <i data-lucide="map-pin"></i> View on Map
+      </button>
+      <button class="btn btn-ar" onclick="openAROverlay()">
+        <i data-lucide="scan"></i> Launch in AR
+      </button>
+    </div>
+  </section>
+
+  <!-- RIGHT -->
+  <section class="right-panel" id="viewerPanel">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="viewer-eyebrow">Interactive 3D Heritage Model</div>
+
+    <div class="model-frame">
+      <model-viewer
+        id="model3d"
+        src="konak.glb"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        auto-rotate-delay="800"
+        rotation-per-second="16deg"
+        shadow-intensity="1.2"
+        exposure="0.95"
+        camera-orbit="30deg 75deg 105%"
+        environment-image="neutral"
+        alt="3D model of Konark Sun Temple"
+        loading="eager"
+      >
+        <div slot="poster" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:rgba(15,26,48,.9);">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="2" style="animation:spin 1.2s linear infinite">
+            <circle cx="12" cy="12" r="10" stroke-opacity=".2"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </model-viewer>
+    </div>
+
+    <div class="viewer-hint">
+      <i data-lucide="mouse-pointer-click"></i>
+      Drag to rotate &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Two-finger to pan
+    </div>
+
+    <div class="powered-badge">
+      <i data-lucide="cpu"></i> Powered by WebAR &amp; 3D Scanning
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== AR OVERLAY ===== -->
+<div class="ar-overlay" id="arOverlay">
+  <button class="btn-ar-close" onclick="closeAROverlay()"><i data-lucide="x"></i></button>
+
+  <div class="ar-cam-circle">
+    <i data-lucide="camera"></i>
+  </div>
+
+  <h2 class="ar-title">Ready to explore?</h2>
+  <p class="ar-subtitle">We need camera access to provide the augmented reality experience.</p>
+
+  <button class="btn-enable-camera" id="enableCameraBtn" onclick="startAR()">
+    Enable Camera
+  </button>
+
+  <p class="ar-status" id="arStatus">
+    Works best on Android Chrome or iOS Safari. Point your camera at a flat surface.
+  </p>
+</div>
+
+<!-- Video feed for manual AR fallback -->
+<video id="ar-video" autoplay playsinline muted></video>
+
+<!-- Live AR UI (exit button) -->
+<div class="ar-live-ui" id="arLiveUI">
+  <button class="ar-exit-btn" onclick="stopAR()">✕ Exit AR</button>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+  lucide.createIcons();
+
+  // ── Floating particles ──
+  (function(){
+    const panel = document.getElementById('viewerPanel');
+    const colors = ['#c9a84c','#e2c06a','rgba(255,255,255,.4)'];
+    for(let i=0;i<18;i++){
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left   = Math.random()*100+'%';
+      p.style.top    = 50+Math.random()*50+'%';
+      const s = (2+Math.random()*3)+'px';
+      p.style.width  = s; p.style.height = s;
+      p.style.background = colors[i%colors.length];
+      p.style.animationDelay    = Math.random()*6+'s';
+      p.style.animationDuration = (4+Math.random()*5)+'s';
+      panel.appendChild(p);
+    }
+  })();
+
+  // ── Parallax tilt ──
+  const modelFrame = document.querySelector('.model-frame');
+  const rp = document.querySelector('.right-panel');
+  rp.addEventListener('mousemove', e => {
+    const r = rp.getBoundingClientRect();
+    const x = (e.clientX-r.left)/r.width-.5;
+    const y = (e.clientY-r.top)/r.height-.5;
+    modelFrame.style.transform = `perspective(900px) rotateY(${x*4}deg) rotateX(${-y*4}deg)`;
+  });
+  rp.addEventListener('mouseleave',()=>{
+    modelFrame.style.transition = 'transform .5s ease';
+    modelFrame.style.transform  = 'perspective(900px) rotateY(0) rotateX(0)';
+  });
+  rp.addEventListener('mouseenter',()=>{ modelFrame.style.transition = 'transform .1s ease'; });
+
+  // ── Stat counter animation ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(!e.isIntersecting) return;
+      e.target.querySelectorAll('.stat-num[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        let cur = 0;
+        const step = Math.ceil(target/40);
+        const iv = setInterval(()=>{
+          cur = Math.min(cur+step, target);
+          el.textContent = cur.toLocaleString()+suffix;
+          if(cur>=target) clearInterval(iv);
+        },30);
+      });
+      observer.unobserve(e.target);
+    });
+  },{ threshold: .5 });
+  const statsCard = document.querySelector('.stats-card');
+  if(statsCard) observer.observe(statsCard);
+
+  // ── Map ──
+  function openMap(){
+    window.open('https://www.google.com/maps/place/Konark+Sun+Temple/@19.8876,86.0945,17z','_blank');
+  }
+
+  // ==============================
+  // AR LOGIC
+  // ==============================
+  let arStream = null;
+
+  function openAROverlay(){
+    document.getElementById('arOverlay').classList.add('active');
+    document.getElementById('arStatus').textContent =
+      'Works best on Android Chrome or iOS Safari. Point your camera at a flat surface.';
+    document.getElementById('enableCameraBtn').textContent = 'Enable Camera';
+  }
+
+  function closeAROverlay(){
+    document.getElementById('arOverlay').classList.remove('active');
+    stopAR();
+  }
+
+  async function startAR(){
+    const mv = document.getElementById('model3d');
+    const statusEl = document.getElementById('arStatus');
+    const btn = document.getElementById('enableCameraBtn');
+
+    // ── Try native WebXR via model-viewer (best on mobile) ──
+    if(mv.canActivateAR){
+      document.getElementById('arOverlay').classList.remove('active');
+      try {
+        await mv.activateAR();
+        return;
+      } catch(err){
+        console.warn('WebXR failed:', err);
+      }
+    }
+
+    // ── Try Scene Viewer (Android) ──
+    const isAndroid = /android/i.test(navigator.userAgent);
+    if(isAndroid){
+      const modelSrc = mv.src || 'konak.glb';
+      const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(location.origin+'/'+modelSrc)}&mode=ar_preferred#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
+      document.getElementById('arOverlay').classList.remove('active');
+      window.location = sceneViewerUrl;
+      return;
+    }
+
+    // ── Try Quick Look (iOS) ──
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if(isIOS){
+      const modelSrc = mv.src || 'konak.glb';
+      const usdzSrc  = modelSrc.replace('.glb','.usdz');
+      const a = document.createElement('a');
+      a.rel  = 'ar';
+      a.href = usdzSrc;
+      a.appendChild(document.createElement('img'));
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      document.getElementById('arOverlay').classList.remove('active');
+      return;
+    }
+
+    // ── Fallback: Camera feed + 3D overlay ──
+    btn.textContent = 'Starting Camera…';
+    statusEl.textContent = 'Requesting camera access…';
+
+    try {
+      arStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
+      });
+
+      const video = document.getElementById('ar-video');
+      video.srcObject = arStream;
+      video.style.display = 'block';
+      document.getElementById('arOverlay').classList.remove('active');
+
+      // Show live UI
+      document.getElementById('arLiveUI').classList.add('active');
+
+      statusEl.textContent = 'Camera active. AR mode running.';
+
+      // Re-init lucide icons for any dynamically shown elements
+      lucide.createIcons();
+
+    } catch(err){
+      console.error('Camera error:', err);
+      if(err.name === 'NotAllowedError'){
+        statusEl.textContent = '⚠ Camera access denied. Please allow camera in browser settings and try again.';
+      } else if(err.name === 'NotFoundError'){
+        statusEl.textContent = '⚠ No camera found on this device.';
+      } else {
+        statusEl.textContent = '⚠ Could not access camera: '+err.message;
+      }
+      btn.textContent = 'Try Again';
+    }
+  }
+
+  function stopAR(){
+    if(arStream){
+      arStream.getTracks().forEach(t => t.stop());
+      arStream = null;
+    }
+    const video = document.getElementById('ar-video');
+    video.style.display = 'none';
+    video.srcObject = null;
+    document.getElementById('arLiveUI').classList.remove('active');
+  }
+</script>
+
+</body>
+</html>
